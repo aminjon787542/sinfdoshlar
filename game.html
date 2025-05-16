@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mafia O'yini - O'yin sahifasi</title>
+  <style>
+    body { 
+      background: #222; color: white; font-family: Arial, sans-serif; 
+      text-align: center; padding: 30px;
+    }
+    #role {
+      font-size: 24px; margin-top: 20px; padding: 15px; 
+      background: #e94560; border-radius: 10px; display: inline-block;
+    }
+    button {
+      margin-top: 30px; padding: 10px 20px; font-size: 16px;
+      background: #444; border: none; border-radius: 5px; color: white; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mafia O'yini</h1>
+  <h2>Salom, <span id="playerName"></span>!</h2>
+  <div>Sizning rolingiz:</div>
+  <div id="role"></div>
+  <button onclick="logout()">Chiqish</button>
+
+  <script>
+    const playerNameSpan = document.getElementById('playerName');
+    const roleDiv = document.getElementById('role');
+
+    const currentUser = localStorage.getItem('currentUser');
+    const gameData = JSON.parse(localStorage.getItem('gameData')) || [];
+
+    if(!currentUser){
+      alert('Login qilishingiz kerak!');
+      window.location.href = 'index.html';
+    } else {
+      playerNameSpan.textContent = currentUser;
+
+      const playerInfo = gameData.find(p => p.username === currentUser);
+
+      if(playerInfo){
+        roleDiv.textContent = playerInfo.role;
+      } else {
+        roleDiv.textContent = 'Rol topilmadi!';
+      }
+    }
+
+    function logout(){
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('joinedPlayers');
+      localStorage.removeItem('gameData');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
